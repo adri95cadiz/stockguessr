@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StockGuessr</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png" />
+    <link rel="shortcut icon" href="favicon.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Pantalla de inicio -->
+      <div id="start-screen" class="screen active">
+        <div class="container">
+          <div class="hero">
+            <div class="logo">
+              <i class="fas fa-chart-line"></i>
+              StockGuessr
+            </div>
+            <p class="tagline">¿Puedes predecir el mercado?</p>
+            <p class="description">
+              Analiza datos históricos de acciones reales y demuestra tu
+              intuición financiera. Dos modalidades de juego para desafiar tus
+              conocimientos del mercado.
+            </p>
+
+            <!-- Nueva sección de selección de modalidad -->
+            <div class="game-mode-selection">
+              <h3>Selecciona tu modalidad:</h3>
+              <div class="mode-buttons">
+                <div class="mode-card" data-mode="predict_price">
+                  <i class="fas fa-dollar-sign"></i>
+                  <h4>Predecir Precio</h4>
+                  <p>
+                    Ve datos históricos de un stock misterioso y predice su
+                    precio actual
+                  </p>
+                </div>
+                <div class="mode-card" data-mode="guess_stock">
+                  <i class="fas fa-search"></i>
+                  <h4>Adivinar Empresa</h4>
+                  <p>Con datos actuales de mercado, descubre qué empresa es</p>
+                </div>
+              </div>
+            </div>
+
+            <button id="start-game" class="btn btn-primary btn-large">
+              <i class="fas fa-play"></i> Comenzar Juego
+            </button>
+
+            <button class="btn btn-primary coffee-btn" style="margin-top: 20px">
+              <i class="fas fa-coffee"></i>
+              Cómprame un café
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pantalla del juego -->
+      <div id="game-screen" class="screen">
+        <div class="container">
+          <div class="game-content">
+            <div class="stock-card">
+              <div class="stock-header">
+                <div class="stock-info">
+                  <h2 id="stock-symbol" class="stock-symbol">AAPL</h2>
+                  <p id="stock-name" class="stock-name">Apple Inc.</p>
+                </div>
+                <div class="time-info">
+                  <span class="time-label">Datos de:</span>
+                  <span id="historical-date" class="historical-date"
+                    >Enero 2023</span
+                  >
+                </div>
+              </div>
+
+              <div class="indicators-grid">
+                <div class="indicator">
+                  <span class="indicator-label">Precio (hace 1 año)</span>
+                  <span id="historical-price" class="indicator-value"
+                    >$150.23</span
+                  >
+                </div>
+                <div class="indicator">
+                  <span class="indicator-label">P/E Ratio</span>
+                  <span id="pe-ratio" class="indicator-value">25.4</span>
+                </div>
+                <div class="indicator">
+                  <span class="indicator-label">Market Cap</span>
+                  <span id="market-cap" class="indicator-value">$2.4T</span>
+                </div>
+                <div class="indicator">
+                  <span class="indicator-label">52W High</span>
+                  <span id="high-52w" class="indicator-value">$182.94</span>
+                </div>
+                <div class="indicator">
+                  <span class="indicator-label">52W Low</span>
+                  <span id="low-52w" class="indicator-value">$124.17</span>
+                </div>
+                <div class="indicator">
+                  <span class="indicator-label">Volume</span>
+                  <span id="volume" class="indicator-value">84.2M</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="guess-section">
+              <h3>¿Cuál crees que es el precio actual?</h3>
+              <div class="input-group">
+                <span class="currency">$</span>
+                <input
+                  type="number"
+                  id="guess-input"
+                  placeholder="0.00"
+                  step="0.01"
+                  min="0"
+                />
+              </div>
+              <button id="submit-guess" class="btn btn-primary">
+                <i class="fas fa-check"></i>
+                Confirmar Predicción
+              </button>
+              <div class="game-header">
+                <div class="container">
+                  <div class="progress-info">
+                    <span class="round-counter"
+                      >Ronda <span id="current-round">1</span> de 10</span
+                    >
+                    <div class="progress-bar">
+                      <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pantalla de resultado de ronda -->
+      <div id="round-result-screen" class="screen">
+        <div class="container">
+          <div class="result-card">
+            <div class="result-header">
+              <div id="result-icon" class="result-icon">
+                <i class="fas fa-bullseye"></i>
+              </div>
+              <h2 id="result-title">¡Excelente!</h2>
+              <p id="result-subtitle">Muy cerca del precio real</p>
+              <h3 id="result-symbol" style="margin-top: 20px">META</h3>
+              <p id="result-name">Meta Platforms Inc.</p>
+            </div>
+
+            <div class="price-comparison">
+              <div class="price-item">
+                <span class="price-label">Tu predicción</span>
+                <span id="your-guess" class="price-value guess">$185.50</span>
+              </div>
+              <div class="vs">VS</div>
+              <div class="price-item">
+                <span class="price-label">Precio real</span>
+                <span id="actual-price" class="price-value actual"
+                  >$189.43</span
+                >
+              </div>
+            </div>
+
+            <div class="score-info">
+              <div class="score-circle">
+                <span id="round-score" class="score-number">850</span>
+                <span class="score-label">puntos</span>
+              </div>
+              <p id="accuracy-text" class="accuracy-text">
+                Diferencia: 2.1% (±$3.93)
+              </p>
+            </div>
+
+            <button id="next-round" class="btn btn-primary">
+              <i class="fas fa-arrow-right"></i>
+              Siguiente Ronda
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pantalla de resultados finales -->
+      <div id="final-results-screen" class="screen">
+        <div class="container">
+          <div class="final-results">
+            <div class="congratulations">
+              <i class="fas fa-trophy"></i>
+              <h1>¡Felicitaciones!</h1>
+              <p class="date">StockGuessr <span id="game-date"></span></p>
+            </div>
+
+            <div class="final-score">
+              <p>
+                Obtuviste una puntuación promedio de
+                <strong id="average-score">2091</strong> puntos en 10 rondas
+              </p>
+              <p>
+                Tuviste <strong id="perfect-rounds">2</strong> rondas perfectas!
+              </p>
+            </div>
+
+            <div class="action-buttons">
+              <button class="btn btn-secondary share-btn">
+                <i class="fas fa-share"></i>
+                COMPARTIR
+              </button>
+              <button class="btn btn-secondary twitter-btn">
+                <i class="fab fa-twitter"></i>
+                COMPARTIR
+              </button>
+              <button class="btn btn-primary coffee-btn">
+                <i class="fas fa-coffee"></i>
+                Cómprame un café
+              </button>
+            </div>
+
+            <div class="score-distribution">
+              <h3>Distribución de Puntuaciones</h3>
+              <p class="distribution-subtitle">
+                ¡Estás en el top <span id="percentile">40%</span> de los
+                jugadores!
+              </p>
+              <div class="chart-container">
+                <canvas id="distribution-chart"></canvas>
+              </div>
+            </div>
+
+            <button id="play-again" class="btn btn-play-again">
+              <i class="fas fa-redo"></i>
+              Jugar de Nuevo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

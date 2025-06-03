@@ -1,0 +1,36 @@
+{
+  "name": "stockguessr",
+  "version": "1.0.0",
+  "description": "Un juego donde predices precios de acciones y adivinas empresas",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'No build process needed'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "stocks",
+    "game",
+    "finance",
+    "predictions",
+    "nodejs",
+    "express"
+  ],
+  "author": "adrifandango",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-fetch": "^2.7.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tu-usuario/stockguessr.git"
+  },
+  "homepage": "https://github.com/tu-usuario/stockguessr#readme"
+}
