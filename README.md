@@ -142,4 +142,4 @@ Si te gusta el proyecto, [¡invítanos un café!](https://buymeacoffee.com/adrif
 
 ---
 
-**Desarrollado con ❤️ por [adrifandango](https://github.com/adrifandango)** 
+**Desarrollado con ❤️ por [Adri](https://github.com/adri95cadiz)** 
