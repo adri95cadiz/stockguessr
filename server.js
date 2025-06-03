@@ -322,24 +322,140 @@ function createFallbackStockData(symbol, endpoint, gameMode = 'predict') {
         console.log(`✅ Datos históricos fallback generados: ${data['Monthly Time Series'].length} puntos`);
         return data;
     } else if (endpoint === 'overview') {
-        const overview = {
-            Symbol: symbol,
-            Name: getCompanyName(symbol),
-            Description: `${getCompanyName(symbol)} es una empresa líder en su sector que cotiza en el mercado de valores estadounidense.`,
-            Sector: getSectorForSymbol(symbol),
-            Industry: getIndustryForSymbol(symbol),
-            MarketCapitalization: Math.floor(Math.random() * 500000000000 + 50000000000),
-            PERatio: (Math.random() * 25 + 8).toFixed(2),
-            '52WeekHigh': (Math.random() * 50 + 150).toFixed(2),
-            '52WeekLow': (Math.random() * 50 + 80).toFixed(2),
-            DividendYield: Math.random() > 0.3 ? (Math.random() * 4 + 0.5).toFixed(2) + '%' : 'N/A',
-            Beta: (Math.random() * 1.5 + 0.5).toFixed(2),
-            Country: 'US',
-            Currency: 'USD'
-        };
-        console.log(`✅ Datos fundamentales fallback generados para ${overview.Name}`);
+        // Intentar usar datos históricos existentes si están disponibles
+        const historicalData = getHistoricalDataForCalculations(symbol);
+        const overview = generateRealisticFundamentals(symbol, historicalData);
+        console.log(`✅ Datos fundamentales realistas generados para ${overview.Name}`);
         return overview;
     }
+}
+
+// Nueva función para obtener datos históricos para cálculos
+function getHistoricalDataForCalculations(symbol) {
+    // Verificar si ya tenemos datos históricos en cache
+    const cacheKey = getCacheKey(symbol.toUpperCase(), 'timeseries');
+    const cachedData = getFromCache(cacheKey);
+    
+    if (cachedData && cachedData['Monthly Time Series']) {
+        return cachedData['Monthly Time Series'];
+    }
+    
+    // Si no hay datos en cache, generar datos históricos básicos
+    return generateFallbackHistoricalData(symbol, 'predict')['Monthly Time Series'];
+}
+
+// Nueva función para generar datos fundamentales realistas
+function generateRealisticFundamentals(symbol, historicalData) {
+    const companyName = getCompanyName(symbol);
+    const sector = getSectorForSymbol(symbol);
+    const industry = getIndustryForSymbol(symbol);
+    
+    // Calcular métricas basadas en datos históricos
+    const prices = historicalData.map(d => d.close || d.price);
+    const volumes = historicalData.map(d => d.volume);
+    
+    const currentPrice = prices[prices.length - 1];
+    const oldestPrice = prices[0];
+    const maxPrice = Math.max(...prices);
+    const minPrice = Math.min(...prices);
+    const avgVolume = volumes.reduce((sum, vol) => sum + vol, 0) / volumes.length;
+    
+    // Calcular volatilidad (desviación estándar de returns)
+    const returns = [];
+    for (let i = 1; i < prices.length; i++) {
+        returns.push((prices[i] - prices[i-1]) / prices[i-1]);
+    }
+    const avgReturn = returns.reduce((sum, ret) => sum + ret, 0) / returns.length;
+    const variance = returns.reduce((sum, ret) => sum + Math.pow(ret - avgReturn, 2), 0) / returns.length;
+    const volatility = Math.sqrt(variance);
+    
+    // Calcular Market Cap basado en sector y precio
+    const sectorMultipliers = {
+        'Technology': { min: 50, max: 3000 }, // Apple, Microsoft scale
+        'Healthcare': { min: 20, max: 500 },
+        'Financial Services': { min: 30, max: 400 },
+        'Consumer Cyclical': { min: 15, max: 300 },
+        'Consumer Defensive': { min: 25, max: 250 },
+        'Energy': { min: 10, max: 200 },
+        'Industrial': { min: 8, max: 150 }
+    };
+    
+    const multiplier = sectorMultipliers[sector] || { min: 10, max: 100 };
+    const sharesOutstanding = (Math.random() * (multiplier.max - multiplier.min) + multiplier.min) * 1000000;
+    const marketCap = currentPrice * sharesOutstanding;
+    
+    // Calcular P/E ratio realista basado en sector
+    const sectorPE = {
+        'Technology': { min: 15, max: 35 },
+        'Healthcare': { min: 12, max: 25 },
+        'Financial Services': { min: 8, max: 18 },
+        'Consumer Cyclical': { min: 10, max: 22 },
+        'Consumer Defensive': { min: 14, max: 28 },
+        'Energy': { min: 6, max: 15 },
+        'Industrial': { min: 12, max: 20 }
+    };
+    
+    const peRange = sectorPE[sector] || { min: 10, max: 20 };
+    let peRatio = Math.random() * (peRange.max - peRange.min) + peRange.min;
+    
+    // Ajustar P/E basado en performance (empresas con mejor performance = P/E más alto)
+    const performance = (currentPrice - oldestPrice) / oldestPrice;
+    if (performance > 0.2) peRatio *= 1.3; // +30% si subió >20%
+    else if (performance < -0.2) peRatio *= 0.7; // -30% si bajó >20%
+    
+    // Calcular 52-week high/low con margen realista
+    const high52w = maxPrice * (1 + Math.random() * 0.05); // Hasta 5% más alto
+    const low52w = minPrice * (1 - Math.random() * 0.05);  // Hasta 5% más bajo
+    
+    // Calcular dividendo realista basado en sector
+    const dividendYielders = ['Consumer Defensive', 'Financial Services', 'Energy'];
+    let dividendYield = 'N/A';
+    
+    if (dividendYielders.includes(sector) && Math.random() > 0.3) {
+        const yieldPercent = Math.random() * 4 + 0.5; // 0.5% - 4.5%
+        dividendYield = yieldPercent.toFixed(2) + '%';
+    }
+    
+    // Calcular Beta basado en volatilidad real
+    let beta = volatility * 10; // Convertir volatilidad diaria a beta aproximado
+    beta = Math.max(0.3, Math.min(2.5, beta)); // Limitar entre 0.3 y 2.5
+    
+    return {
+        Symbol: symbol,
+        Name: companyName,
+        Description: `${companyName} es una empresa ${getIndustryDescription(industry)} que cotiza en el mercado de valores estadounidense. La empresa opera en el sector ${sector.toLowerCase()} y ha mostrado ${performance > 0 ? 'un crecimiento' : 'una evolución'} ${Math.abs(performance * 100).toFixed(1)}% en el período analizado.`,
+        Sector: sector,
+        Industry: industry,
+        MarketCapitalization: Math.round(marketCap),
+        PERatio: peRatio.toFixed(2),
+        '52WeekHigh': high52w.toFixed(2),
+        '52WeekLow': low52w.toFixed(2),
+        DividendYield: dividendYield,
+        Beta: beta.toFixed(2),
+        Country: 'US',
+        Currency: 'USD',
+        // Datos adicionales calculados
+        AverageVolume: Math.round(avgVolume),
+        Volatility: (volatility * 100).toFixed(2) + '%',
+        Performance: (performance * 100).toFixed(2) + '%'
+    };
+}
+
+// Función auxiliar para descripciones de industrias
+function getIndustryDescription(industry) {
+    const descriptions = {
+        'Consumer Electronics': 'líder en electrónicos de consumo',
+        'Internet Content & Information': 'enfocada en contenido y servicios de internet',
+        'Software—Infrastructure': 'especializada en software de infraestructura',
+        'Auto Manufacturers': 'manufacturera de automóviles',
+        'Internet Retail': 'de comercio electrónico',
+        'Semiconductors': 'de semiconductores y tecnología',
+        'Entertainment': 'de entretenimiento y medios',
+        'Banks—Diversified': 'de servicios bancarios diversificados',
+        'Software': 'de desarrollo de software'
+    };
+    
+    return descriptions[industry] || 'innovadora en su sector';
 }
 
 // Funciones auxiliares para datos fallback

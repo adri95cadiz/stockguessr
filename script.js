@@ -708,7 +708,7 @@ function updateUIForStockMode() {
 
     // Configurar input para texto
     elements.guessInput.type = 'text';
-    elements.guessInput.placeholder = 'Escribe el nombre de la empresa...';
+    elements.guessInput.placeholder = 'Busca una empresa...';
     elements.guessInput.removeAttribute('step');
     elements.guessInput.removeAttribute('min');
 
