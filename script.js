@@ -205,7 +205,7 @@ async function startGame() {
     try {
         // Registrar tiempo de inicio del juego
         gameState.gameStartTime = new Date().toISOString();
-        
+
         // Mostrar loading
         elements.startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando datos...';
         elements.startBtn.disabled = true;
@@ -307,9 +307,8 @@ async function fetchStockData(symbol) {
         const data = await timeSeriesResponse.json();
 
         const timeSeries = data['Monthly Time Series'];
-        const metaData = data['Meta Data'];
 
-        if (!timeSeries || !metaData) {
+        if (!timeSeries) {
             throw new Error('Datos no válidos recibidos de la API');
         }
 
@@ -453,7 +452,7 @@ function generateFallbackHistoricalData(startPrice, endPrice, gameMode = GAME_MO
 
     for (let i = 0; i < months; i++) {
         const date = new Date();
-        
+
         if (gameMode === GAME_MODES.PREDICT_PRICE) {
             // En modo predict_price: generar fechas hacia atrás desde hace un año
             date.setMonth(date.getMonth() - (12 + (months - i)));
@@ -529,13 +528,13 @@ function loadNextRound() {
         // En modo predicción: mostrar datos HISTÓRICOS (hace un año)
         elements.historicalDate.textContent = gameState.currentStock.historicalDate;
         elements.historicalPrice.textContent = `$${gameState.currentStock.historicalPrice.toFixed(2)}`;
-        
+
         // Actualizar etiqueta del precio
         const priceLabel = document.querySelector('.indicator .indicator-label');
         if (priceLabel) {
             priceLabel.textContent = 'Precio (hace 1 año)';
         }
-        
+
         // Actualizar UI para modo predicción de precio
         updateUIForPriceMode();
     } else {
@@ -551,13 +550,13 @@ function loadNextRound() {
             day: 'numeric'
         });
         elements.historicalPrice.textContent = `$${gameState.currentStock.currentPrice.toFixed(2)}`;
-        
+
         // Actualizar etiqueta del precio
         const priceLabel = document.querySelector('.indicator .indicator-label');
         if (priceLabel) {
             priceLabel.textContent = 'Precio actual';
         }
-        
+
         // Actualizar UI para modo adivinanza de empresa
         updateUIForStockMode();
     }
@@ -913,7 +912,7 @@ function addCompanySearchList() {
 
         searchList.appendChild(item);
     });
-    
+
     const noResults = document.createElement('div');
     noResults.className = 'no-results';
     noResults.textContent = 'No se encontraron empresas';
@@ -1071,7 +1070,7 @@ function createHistoricalChart() {
     // Actualizar título e instrucciones según el modo
     const chartTitle = document.getElementById('chart-title');
     const chartInstruction = document.getElementById('chart-instruction');
-    
+
     if (gameState.gameMode === GAME_MODES.PREDICT_PRICE) {
         chartTitle.textContent = 'Evolución Histórica de Precio';
         chartInstruction.textContent = 'Haz clic en la gráfica donde crees que está el precio actual (extremo derecho)';
@@ -1272,14 +1271,14 @@ function submitPriceGuess() {
 
     const actualPrice = gameState.currentStock.currentPrice;
     const difference = Math.abs(guess - actualPrice);
-    
+
     // Calcular el rango de precios del activo (volatilidad)
     const priceRange = gameState.currentStock.high52w - gameState.currentStock.low52w;
-    
+
     // Calcular diferencia relativa al rango en lugar del precio absoluto
     // Esto hace la puntuación más justa entre activos volátiles y estables
     const relativeDifference = (difference / priceRange) * 100;
-    
+
     // También mantener el porcentaje tradicional para información
     const percentageDifference = (difference / actualPrice) * 100;
 
@@ -1291,7 +1290,7 @@ function submitPriceGuess() {
     // Calcular puntuación basada en la diferencia relativa al rango
     // Fórmula mejorada que penaliza más gradualmente
     let score;
-    
+
     if (relativeDifference < 1) {
         // Predicción perfecta (diferencia < 1% del rango)
         score = 1000;
@@ -1440,13 +1439,13 @@ function showRoundResult(guess, actual, score, percentageDifference, isPerfect, 
     if (mode === 'price') {
         elements.yourGuess.textContent = `$${parseFloat(guess).toFixed(2)}`;
         elements.actualPrice.textContent = `$${parseFloat(actual).toFixed(2)}`;
-        
+
         // Calcular información adicional para mostrar
         const difference = Math.abs(guess - actual);
         const priceRange = gameState.currentStock.high52w - gameState.currentStock.low52w;
         const percentageOfPrice = (difference / actual) * 100;
         const relativeDiffForDisplay = (difference / priceRange) * 100;
-        
+
         // Mostrar información más detallada sobre la puntuación
         elements.accuracyText.innerHTML = `
             <div style="font-size: 0.9em; line-height: 1.4;">
@@ -1890,7 +1889,7 @@ async function generateRealDistributionChart(playerScore, globalStats) {
             const leaderboardResponse = await fetch('/api/stats/leaderboard?limit=50');
             if (leaderboardResponse.ok) {
                 const leaderboard = await leaderboardResponse.json();
-                
+
                 // Crear rangos basados en datos reales
                 const scores = leaderboard.topScores.map(s => s.score);
                 const minScore = Math.min(...scores, playerScore);
