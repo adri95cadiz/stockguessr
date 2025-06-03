@@ -313,11 +313,11 @@ async function fetchStockData(symbol) {
         }
 
         // Convertir datos a formato utilizable y ordenar por fecha
-        const dates = Object.keys(timeSeries).sort((a, b) => new Date(a) - new Date(b));
-        const historicalData = dates.map(date => ({
-            date: date,
-            price: parseFloat(timeSeries[date]['4. close']),
-            volume: parseInt(timeSeries[date]['5. volume'])
+        const dates = Object.keys(timeSeries).sort((a, b) => new Date(a['date']) - new Date(b['date']));
+        const historicalData = dates.map(dataPoint => ({
+            date: dataPoint['date'],
+            price: parseFloat(dataPoint['close']),
+            volume: parseInt(dataPoint['volume'])
         }));
 
         // Calcular fecha de hace exactamente un año
