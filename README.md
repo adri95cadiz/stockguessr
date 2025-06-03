@@ -1,214 +1,145 @@
 # 📈 StockGuessr
 
-**¿Puedes predecir el mercado de valores?**
+Un juego interactivo donde puedes poner a prueba tus conocimientos financieros prediciendo precios de acciones y adivinando empresas basándote en datos históricos.
 
-StockGuessr es un juego web interactivo inspirado en Geoguessr donde los jugadores deben adivinar el precio actual de las acciones basándose en datos e indicadores históricos reales obtenidos de APIs financieras.
+## 🎮 Características
 
-## 🎮 Cómo Jugar
+- **Dos modos de juego:**
+  - **Predict Price**: Predice el precio actual basándote en datos históricos
+  - **Discover Company**: Adivina qué empresa es basándote en su gráfico histórico
 
-1. **Observa los datos históricos reales**: Ve el precio de la acción hace un año junto con indicadores clave como P/E ratio, capitalización de mercado, máximos y mínimos de 52 semanas, y volumen de trading.
+- **Sistema de puntuación inteligente** basado en volatilidad
+- **Estadísticas reales** de jugadores persistentes
+- **Gráficos interactivos** con Chart.js
+- **Cache inteligente** para optimizar rendimiento
+- **API híbrida** con fallback automático
 
-2. **Analiza la gráfica histórica**: Observa la evolución del precio durante los últimos 24 meses en una gráfica interactiva.
+## 🚀 Demo en Vivo
 
-3. **Haz tu predicción**: 
-   - **Opción 1**: Haz clic directamente en la gráfica donde crees que está el precio actual
-   - **Opción 2**: Escribe manualmente tu estimación en el campo de texto
+🔗 **[Jugar StockGuessr](https://tu-app.onrender.com)**
 
-4. **Obtén tu puntuación**: Recibe puntos basados en qué tan cerca estuviste del precio real (0-1000 puntos por ronda).
+## 🛠 Tecnologías
 
-5. **Completa 10 rondas**: Juega con 10 acciones diferentes seleccionadas aleatoriamente de datos reales.
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+), Chart.js
+- **Backend**: Node.js, Express.js
+- **API**: Financial Modeling Prep + Sistema de fallback
+- **Base de datos**: JSON persistente (fácilmente migrable a SQL)
+- **Deploy**: Render
 
-6. **Ve tus estadísticas**: Al final, observa tu promedio de puntuación, rondas perfectas y tu posición en la distribución de jugadores.
+## 📊 Características Técnicas
 
-## 🎯 Sistema de Puntuación
+### Sistema de Puntuación
+- Puntuación basada en **volatilidad relativa** del activo
+- Máximo 1000 puntos por ronda perfecta
+- Algoritmo justo para acciones volátiles vs estables
 
-- **1000 puntos**: Predicción perfecta (diferencia < 1%)
-- **900+ puntos**: Excelente (diferencia < 5%)
-- **700+ puntos**: Buena predicción (diferencia < 15%)
-- **500+ puntos**: Predicción decente (diferencia < 30%)
-- **0-499 puntos**: Necesitas mejorar (diferencia > 30%)
+### Sistema de Cache
+- Cache en memoria con TTL de 24 horas
+- Limpieza automática cada 10 minutos
+- Endpoints de gestión: `/api/cache/stats` y `/api/cache/clear`
 
-## 🚀 Configuración Rápida
+### Estadísticas de Jugadores
+- Identificación anónima por IP + UserAgent
+- Persistencia en archivos JSON
+- Estadísticas globales y personales
+- Leaderboard en tiempo real
 
-### Para datos reales (recomendado):
+## 🔧 Instalación Local
 
-1. **Obtén una API key gratuita**:
-   - Ve a [Alpha Vantage](https://www.alphavantage.co/support/#api-key)
-   - Regístrate gratis (sin tarjeta de crédito)
-   - Recibirás 500 llamadas API gratuitas por día
+```bash
+# Clonar repositorio
+git clone https://github.com/tu-usuario/stockguessr.git
+cd stockguessr
 
-2. **Configura tu clave**:
-   - Abre `script.js`
-   - Reemplaza `const API_KEY = 'demo';` con tu clave real
-   - Ejemplo: `const API_KEY = 'TU_CLAVE_AQUI';`
+# Instalar dependencias
+npm install
 
-3. **¡Juega con datos reales!**
-   - Datos históricos auténticos de Alpha Vantage
-   - Información fundamental real de empresas
-   - Gráficas con evolución real de precios
+# Ejecutar en desarrollo
+npm run dev
 
-### Para prueba inmediata:
-- Simplemente abre `index.html` en tu navegador
-- El juego funcionará con datos simulados realistas
-- Sin configuración necesaria
+# El servidor se ejecutará en http://localhost:3000
+```
 
-## 🏆 Características
+## 🌐 Deploy en Render
 
-### 🔥 **Nuevas características principales:**
-- **Datos reales de acciones**: Integración con Alpha Vantage API para datos auténticos
-- **Gráfica histórica interactiva**: Visualiza 24 meses de evolución de precios
-- **Selección por clic**: Haz clic directamente en la gráfica para hacer tu predicción
-- **Fallback inteligente**: Si la API falla, usar datos simulados realistas
-- **Cache de datos**: Evita llamadas redundantes a la API
+### Variables de Entorno Necesarias:
+```
+FMP_API_KEY=tu_clave_de_financial_modeling_prep
+PORT=3000
+NODE_ENV=production
+```
 
-### ✨ **Características existentes mejoradas:**
-- **15 acciones populares**: AAPL, GOOGL, MSFT, TSLA, NVDA, META, y más
-- **Indicadores financieros auténticos**: P/E ratio, capitalización de mercado, rangos de 52 semanas
-- **Sistema de puntuación inteligente**: Basado en el porcentaje de diferencia con el precio real
-- **Estadísticas visuales**: Gráfico de distribución de puntuaciones y percentiles
-- **Interfaz moderna**: Diseño inspirado en Geoguessr con gradientes y animaciones
-- **Funcionalidad de compartir**: Comparte tus puntuaciones en redes sociales
-- **Totalmente responsive**: Funciona perfectamente en móviles y desktop
+### Configuración Automática:
+- **Build Command**: `npm install`
+- **Start Command**: `npm start`
+- **Auto-deploy**: Habilitado desde GitHub
 
-## 🛠️ Tecnologías Utilizadas
-
-- **HTML5**: Estructura semántica y accesible
-- **CSS3**: Estilos modernos con glassmorphism, gradientes y animaciones
-- **JavaScript ES6+**: Lógica del juego, manejo de estado, async/await para APIs
-- **Chart.js**: Gráficas interactivas para datos históricos y distribución de puntuaciones
-- **Alpha Vantage API**: Datos reales de mercado financiero
-- **Font Awesome**: Iconografía profesional
-- **Google Fonts (Inter)**: Tipografía moderna y legible
-
-## 📂 Estructura del Proyecto
+## 📁 Estructura del Proyecto
 
 ```
 stockguessr/
-├── index.html          # Estructura principal del juego
-├── styles.css          # Estilos modernos y responsive
-├── script.js           # Lógica del juego + integración API
-├── README.md           # Este archivo
-├── API_SETUP.md        # Guía para configurar API keys
-└── [otros archivos]
+├── server.js              # Servidor principal con todas las APIs
+├── index.html             # Frontend principal
+├── script.js              # Lógica del juego
+├── styles.css             # Estilos del juego
+├── package.json           # Dependencias y scripts
+├── players_data.json      # Datos de jugadores (generado automáticamente)
+├── game_stats.json        # Estadísticas globales (generado automáticamente)
+└── README.md             # Este archivo
 ```
 
-## 🚀 Cómo Ejecutar
+## 🎯 API Endpoints
 
-### Opción 1: Ejecución local simple
-1. Clona este repositorio o descarga los archivos
-2. Abre `index.html` en tu navegador web
-3. ¡Comienza a jugar inmediatamente con datos simulados!
+### Juego
+- `GET /api/stock/:symbol/timeseries` - Datos históricos
+- `GET /api/stock/:symbol/overview` - Información de la empresa
+- `POST /api/game/save-score` - Guardar puntuación
 
-### Opción 2: Con datos reales (recomendado)
-1. Sigue las instrucciones en `API_SETUP.md`
-2. Configura tu API key en `script.js`
-3. Abre `index.html` en tu navegador
-4. ¡Disfruta datos reales de acciones!
+### Estadísticas
+- `GET /api/stats/global` - Estadísticas globales
+- `GET /api/stats/player` - Estadísticas del jugador actual
+- `GET /api/stats/leaderboard` - Tabla de clasificación
 
-### Opción 3: Servidor local
-```bash
-# Con Python
-python -m http.server 8000
+### Utilidades
+- `GET /api/health` - Estado del servidor
+- `GET /api/cache/stats` - Estadísticas de cache
+- `POST /api/cache/clear` - Limpiar cache
 
-# Con Node.js
-npx serve .
+## 🔄 Sistema de Fallback
 
-# Luego visita http://localhost:8000
-```
+Si la API externa falla, el sistema automáticamente:
+1. Intenta obtener datos de Financial Modeling Prep
+2. Si falla, genera datos realistas de fallback
+3. Cache ambos tipos de datos por igual
+4. Usa datos basados en empresas reales del S&P 500
 
-## 📱 Compatibilidad
+## 📈 Futuras Mejoras
 
-- ✅ Chrome/Chromium (recomendado)
-- ✅ Firefox
-- ✅ Safari
-- ✅ Edge
-- ✅ Dispositivos móviles (iOS/Android)
-- ✅ Funciona offline con datos simulados
-
-## 🎨 Capturas de Pantalla
-
-### Pantalla de Inicio
-Interfaz limpia y atractiva que invita a comenzar el juego.
-
-### Pantalla del Juego con Gráfica
-Visualización clara de datos de la acción con:
-- Indicadores financieros profesionales
-- Gráfica histórica interactiva de 24 meses
-- Capacidad de hacer clic para seleccionar precio
-
-### Resultados de Ronda
-Feedback inmediato sobre tu predicción con comparación visual.
-
-### Estadísticas Finales
-Gráfico de distribución y análisis de tu rendimiento vs otros jugadores.
-
-## 🔧 API y Configuración
-
-### Proveedores de datos soportados:
-- **Alpha Vantage** (principal): 500 llamadas gratuitas/día
-- **Datos simulados** (fallback): Generados algorítmicamente
-
-### Límites y consideraciones:
-- **500 llamadas API por día** con plan gratuito
-- **Datos de fin de día** (no en tiempo real con plan gratuito)
-- **Cache automático** para optimizar uso de API
-- **Fallback inteligente** si se exceden los límites
-
-## 🔮 Características Futuras
-
-- [ ] **Más APIs**: Integración con Twelve Data, IEX Cloud
-- [ ] **Tiempo real**: Datos en vivo para usuarios premium
-- [ ] **Más mercados**: Europa, Asia, criptomonedas
-- [ ] **Modo de dificultad**: Principiante, intermedio, experto
-- [ ] **Datos variables**: 6 meses, 2 años, 5 años
-- [ ] **Sistema de logros**: Badges y desafíos especiales
-- [ ] **Leaderboard global**: Competencia mundial
-- [ ] **Modo multijugador**: Desafía a tus amigos
-- [ ] **Análisis técnico**: RSI, MACD, medias móviles
-- [ ] **Predicción por sectores**: Tecnología, salud, energía
-
-## 💡 Inspiración
-
-Este proyecto está inspirado en:
-- **Geoguessr**: Por su mecánica de juego adictiva y sistema de puntuación
-- **Wordle**: Por su simplicidad y capacidad de compartir resultados
-- **Mercados financieros reales**: Por la emoción de predecir precios auténticos
-- **TradingView**: Por sus gráficas interactivas y herramientas de análisis
+- [ ] Migración a base de datos PostgreSQL
+- [ ] Sistema de autenticación opcional
+- [ ] Torneos y competencias
+- [ ] Más tipos de instrumentos financieros
+- [ ] API propia de datos financieros
+- [ ] Modo multijugador en tiempo real
 
 ## 🤝 Contribuciones
 
-¡Las contribuciones son bienvenidas! Si tienes ideas para mejorar el juego:
+Las contribuciones son bienvenidas. Por favor:
 
 1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
+2. Crea una rama para tu feature (`git checkout -b feature/NuevaCaracteristica`)
+3. Commit tus cambios (`git commit -m 'Añadir nueva característica'`)
+4. Push a la rama (`git push origin feature/NuevaCaracteristica`)
 5. Abre un Pull Request
-
-### Ideas para contribuir:
-- Añadir más APIs de datos financieros
-- Mejorar las gráficas interactivas
-- Añadir más indicadores técnicos
-- Crear nuevos modos de juego
-- Mejorar la UI/UX
-- Optimizar el rendimiento
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT. Ve el archivo `LICENSE` para más detalles.
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
-## ☕ Apoya el Proyecto
+## ☕ Apóyanos
 
-Si disfrutas jugando StockGuessr, considera [comprarme un café](https://buymeacoffee.com/stockguessr) para mantener el proyecto activo y añadir nuevas características.
-
-## 🔗 Enlaces Útiles
-
-- [Alpha Vantage API Documentation](https://www.alphavantage.co/documentation/)
-- [Chart.js Documentation](https://www.chartjs.org/docs/)
-- [Configuración de API](./API_SETUP.md)
+Si te gusta el proyecto, [¡invítanos un café!](https://buymeacoffee.com/adrifandango)
 
 ---
 
-**¡Disfruta prediciendo el mercado con datos reales y pon a prueba tu intuición financiera!** 📊💰
-
-*Última actualización: Incluye gráficas interactivas y datos reales de APIs* 
+**Desarrollado con ❤️ por [adrifandango](https://github.com/adrifandango)** 

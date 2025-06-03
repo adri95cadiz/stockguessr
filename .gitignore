@@ -107,6 +107,6 @@ logs
 tmp/
 temp/
 
-# Data files (opcional - puedes comentar estas líneas si quieres mantener datos iniciales)
+# Data files
 players_data.json
 game_stats.json
