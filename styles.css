@@ -13,7 +13,6 @@ body {
 }
 
 .container {
-  max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -256,7 +255,7 @@ body {
 /* Contenido del juego */
 .game-content {
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: minmax(60vw, 1fr) 400px;
   gap: 40px;
   align-items: start;
 }
@@ -707,54 +706,735 @@ body {
   font-style: italic;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .game-content {
-    grid-template-columns: 1fr;
-    gap: 20px;
+/* Responsive Design - Mobile First Approach */
+
+/* Asegurar que el viewport está configurado correctamente */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Tablets (768px y abajo) */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 100%;
+    padding: 0 16px;
   }
 
-  .guess-section {
-    position: static;
+  .screen {
+    padding: 16px 0;
+    min-height: 100vh;
+  }
+
+  /* Hero section móvil */
+  .hero {
+    padding: 40px 24px;
+    border-radius: 20px;
+    margin: 20px 0;
   }
 
   .logo {
     font-size: 2.5rem;
-  }
-
-  .hero {
-    padding: 40px 20px;
-  }
-
-  .price-comparison {
+    margin-bottom: 12px;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
   }
 
-  .vs {
-    margin: 0;
+  .logo i {
+    font-size: 2rem;
   }
 
-  .action-buttons {
+  .tagline {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+  }
+
+  .description {
+    font-size: 0.9rem;
+    margin-bottom: 32px;
+  }
+
+  .game-content {
+    display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 20px;
+    padding: 16px;
   }
 
-  .indicators-grid {
-    grid-template-columns: 1fr;
+  /* Mejor espaciado entre secciones */
+  .game-mode-selection {
+    margin: 32px 0;
   }
 
+  .game-mode-selection h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  /* Mode selection móvil */
   .mode-buttons {
     grid-template-columns: 1fr;
     gap: 12px;
   }
 
   .mode-card {
-    padding: 16px;
+    padding: 16px 12px;
   }
 
   .mode-card i {
     font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+
+  .mode-card h4 {
+    font-size: 1rem;
+  }
+
+  .mode-card p {
+    font-size: 0.8rem;
+  }
+
+  /* Progress bar más visible en móvil */
+  .game-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    padding: 16px;
+  }
+
+  .progress-bar {
+    height: 8px;
+    border-radius: 4px;
+  }
+
+  .stock-card {
+    width: 100%;
+    padding: 20px 16px;
+    border-radius: 16px;
+    order: 1; /* Mostrar primero */
+  }
+
+  .guess-section {
+    padding: 20px 16px;
+    order: 2; /* Mostrar después */
+    position: static; /* Quitar sticky en móvil */
+    width: 100%;
+  }
+
+  .stock-header {
+    margin-bottom: 16px;
+  }
+
+  .stock-symbol {
+    font-size: 1.75rem;
+    margin-bottom: 4px;
+  }
+
+  .stock-name {
+    font-size: 1rem;
+    color: #374151;
+    font-weight: 500;
+  }
+
+  /* Mejorar visibilidad de time info */
+  .time-info {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .time-label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  .historical-date {
+    font-size: 0.9rem;
+    color: #1f2937;
+    font-weight: 600;
+  }
+
+  /* ARREGLO: Indicadores visibles en grid 2x3 */
+  .indicators-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  /* Mejorar legibilidad de indicadores */
+  .indicator {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #e5e7eb;
+    min-height: 60px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .indicator-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6b7280;
+    margin-bottom: 4px;
+  }
+
+  .indicator-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  .guess-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+  }
+
+  #guess-input {
+    font-size: 16px; /* Evitar zoom en iOS */
+    padding: 14px 16px;
+  }
+
+  /* Mejorar visibilidad de botones */
+  .btn {
+    padding: 14px 20px;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-weight: 600;
+  }
+
+  /* Results móvil */
+  .result-card {
+    padding: 24px 20px;
+    border-radius: 18px;
+  }
+
+  .result-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  #result-title {
+    font-size: 1.3rem;
+  }
+
+  #result-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .price-comparison {
+    flex-direction: column;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .vs {
+    font-size: 1rem;
+    margin: 8px 0;
+  }
+
+  .price-value {
+    font-size: 1.5rem;
+  }
+
+  /* Final results móvil */
+  .final-score {
+    padding: 24px 20px;
+  }
+
+  .congratulations h1 {
+    font-size: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+  }
+
+  /* Estilos específicos para Chart.js en móvil */
+  .chart-wrapper {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .chart-section h4 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+
+  .chart-instruction {
+    font-size: 0.8rem;
+    margin-bottom: 16px;
+  }
+
+  #historical-chart {
+    max-width: 100%;
+  }
+
+  /* Reglas de alta prioridad para asegurar que los indicadores sean visibles en móvil */
+  .indicators-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    margin-top: 16px !important;
+    width: 100% !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .indicator {
+    display: flex !important;
+    flex-direction: column !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  /* Asegurar que stock-card sea visible */
+  .stock-card {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+  }
+
+  /* Asegurar que game-content use flexbox */
+  .game-content {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  .screen {
+    padding: 12px 0;
+  }
+
+  /* Hero más compacto */
+  .hero {
+    padding: 32px 20px;
+    border-radius: 16px;
+    margin: 16px 0;
+  }
+
+  .logo {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  .logo i {
+    font-size: 1.5rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  .description {
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* Game header móvil */
+  .game-header {
+    padding: 12px;
+  }
+
+  .progress-info {
+    gap: 12px;
+  }
+
+  .round-counter {
+    font-size: 0.9rem;
+  }
+
+  .progress-bar {
+    height: 6px;
+  }
+
+  /* Layout móvil mejorado */
+  .game-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 12px;
+  }
+
+  /* Stock card más compacto */
+  .stock-card {
+    padding: 16px 12px;
+    order: 1;
+  }
+
+  .guess-section {
+    padding: 16px 12px;
+    order: 2;
+    position: static;
+  }
+
+  .stock-symbol {
+    font-size: 1.5rem;
+  }
+
+  .stock-name {
+    font-size: 0.9rem;
+  }
+
+  /* CRÍTICO: Indicadores en una sola columna para móviles pequeños */
+  .indicators-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  .indicator {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 12px;
+    min-height: 50px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .indicator-label {
+    font-size: 0.75rem;
+    margin-bottom: 4px;
+  }
+
+  .indicator-value {
+    font-size: 0.95rem;
+  }
+
+  /* Input más grande para touch */
+  #guess-input {
+    font-size: 16px;
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .btn {
+    padding: 16px;
+    font-size: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Botones de acción en columna */
+  .action-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .action-buttons .btn {
+    width: 100%;
+  }
+
+  /* Chart container responsive */
+  .chart-container {
+    height: 250px;
+    margin-bottom: 16px;
+  }
+
+  /* Company search más usable en móvil */
+  .company-search-list {
+    max-height: 200px;
+  }
+
+  .company-item {
+    padding: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .company-symbol {
+    font-size: 0.8rem;
+  }
+
+  .company-name {
+    font-size: 0.85rem;
+  }
+
+  /* Price slider móvil */
+  .price-slider-container {
+    margin: 16px 0;
+  }
+
+  .slider-wrapper {
+    margin: 12px 0;
+  }
+
+  .slider-labels {
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+  }
+
+  .price-slider {
+    height: 8px;
+  }
+
+  /* Results más compactos */
+  .result-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  #result-title {
+    font-size: 1.2rem;
+  }
+
+  #result-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .score-circle {
+    width: 80px;
+    height: 80px;
+  }
+
+  .score-number {
+    font-size: 1.25rem;
+  }
+
+  .score-label {
+    font-size: 0.7rem;
+  }
+
+  /* Stats grid en móvil pequeño */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 12px;
+  }
+
+  .player-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  /* Espaciado más compacto para pantallas pequeñas */
+  .game-mode-selection {
+    margin: 24px 0;
+  }
+
+  .game-mode-selection h3 {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+  }
+
+  /* Progress más compacto */
+  .game-header {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .progress-info {
+    gap: 8px;
+  }
+
+  .round-counter {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  /* Time info más compacto */
+  .time-info {
+    padding: 6px 10px;
+  }
+
+  .time-label {
+    font-size: 0.75rem;
+  }
+
+  .historical-date {
+    font-size: 0.85rem;
+  }
+
+  /* Stock header más compacto */
+  .stock-info {
+    margin-bottom: 8px;
+  }
+
+  /* Input con mejor accesibilidad táctil */
+  .input-group {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .currency {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #6b7280;
+    z-index: 1;
+  }
+
+  #guess-input {
+    padding-left: 48px;
+    border: 2px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  #guess-input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  }
+
+  /* Asegurar que chart wrapper también sea responsive */
+  .chart-wrapper {
+    padding: 8px;
+    height: 250px;
+  }
+
+  .chart-section h4 {
+    font-size: 1rem;
+  }
+
+  .chart-instruction {
+    font-size: 0.75rem;
+    margin-bottom: 12px;
+  }
+}
+
+/* Móviles extra pequeños (320px y abajo) */
+@media (max-width: 320px) {
+  .container {
+    padding: 0 8px;
+  }
+
+  .hero {
+    padding: 24px 16px;
+    margin: 12px 0;
+  }
+
+  .logo {
+    font-size: 1.75rem;
+  }
+
+  .tagline {
+    font-size: 0.9rem;
+  }
+
+  .description {
+    font-size: 0.8rem;
+  }
+
+  .game-content {
+    gap: 16px;
+    padding: 12px;
+  }
+
+  .stock-card {
+    padding: 12px 8px;
+  }
+
+  .guess-section {
+    padding: 16px 12px;
+  }
+
+  .result-card {
+    padding: 20px 16px;
+  }
+}
+
+/* Landscape orientation en móviles */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero {
+    padding: 32px 24px;
+  }
+
+  .game-content {
+    gap: 16px;
+  }
+
+  .chart-container {
+    height: 200px;
+  }
+
+  .indicators-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mejoras de usabilidad táctil */
+@media (hover: none) and (pointer: coarse) {
+  /* Aumentar área de toque para elementos interactivos */
+  .mode-card {
+    min-height: 60px;
+    padding: 16px;
+  }
+
+  .btn {
+    min-height: 48px;
+    padding: 14px 20px;
+  }
+
+  .company-item {
+    min-height: 48px;
+    padding: 12px;
+  }
+
+  .indicator {
+    min-height: 44px;
+  }
+
+  /* Eliminar hover effects en dispositivos táctiles */
+  .mode-card:hover {
+    transform: none;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
+  }
+
+  .btn-primary:hover {
+    transform: none;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+  }
+
+  .btn-secondary:hover {
+    transform: none;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+  }
+
+  /* Feedback táctil para elementos clickeables */
+  .mode-card:active {
+    transform: scale(0.98);
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  .company-item:active {
+    background-color: #f3f4f6;
   }
 }
 
@@ -1025,4 +1705,104 @@ body {
   padding: 4px 8px;
   border-radius: 6px;
   border: 1px solid #10b981;
+}
+
+/* Animaciones suaves para transiciones móviles */
+@media (max-width: 768px) {
+  .screen {
+    transition: all 0.2s ease;
+  }
+
+  .mode-card {
+    transition: all 0.2s ease;
+  }
+
+  .btn {
+    transition: all 0.2s ease;
+  }
+
+  .indicator {
+    transition: all 0.2s ease;
+  }
+}
+
+/* Fix para keyboard navigation en móvil */
+@media (max-width: 768px) {
+  /* Evitar que el teclado virtual afecte el layout */
+  .screen {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height para móviles */
+  }
+
+  /* Mejor handling del focus en elementos táctiles */
+  #guess-input:focus {
+    outline: none;
+    transform: scale(1.02);
+  }
+
+  .btn:focus {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+  }
+
+  .mode-card:focus {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+  }
+}
+
+/* Dark mode considerations para móvil */
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+  /* Ajustar contraste para pantallas móviles en modo oscuro */
+  .indicator {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #374151;
+  }
+
+  .indicator-label {
+    color: #9ca3af;
+  }
+
+  .indicator-value {
+    color: #f9fafb;
+  }
+
+  .time-info {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #374151;
+  }
+
+  .time-label {
+    color: #9ca3af;
+  }
+
+  .historical-date {
+    color: #f9fafb;
+  }
+}
+
+/* Performance optimizations para móvil */
+@media (max-width: 768px) {
+  /* Reducir animaciones en dispositivos de menor potencia */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Optimizar rendering para mejor performance */
+  .chart-wrapper {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  .btn {
+    will-change: transform;
+  }
+
+  .mode-card {
+    will-change: transform;
+  }
 }
