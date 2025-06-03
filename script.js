@@ -289,8 +289,11 @@ async function startGame() {
 async function fetchStockData(symbol) {
     // Verificar cache primero
     if (stockDataCache.has(symbol)) {
+        console.log(`🗃️ USANDO CACHE para ${symbol} - NO se llama a overview`);
         return stockDataCache.get(symbol);
     }
+
+    console.log(`📡 FETCHING DATA para ${symbol} - SÍ se llamará a overview`);
 
     try {
         // Llamar a nuestro backend proxy en lugar de la API externa
