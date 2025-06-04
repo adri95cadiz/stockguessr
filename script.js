@@ -514,6 +514,11 @@ async function fetchStockData(symbol) {
             console.warn('No se pudieron obtener datos fundamentales:', error);
         }
 
+        // Filter historical data by less than one year ago if the game mode is predict_price
+        if (gameState.gameMode === GAME_MODES.PREDICT_PRICE) {
+            historicalData = historicalData.filter(data => new Date(data.date) > oneYearAgo);
+        }
+
         const stockData = {
             symbol: symbol,
             name: companyData.name || knownNames[symbol] || `${symbol} Corporation`,
@@ -1415,8 +1420,16 @@ function getAlternativeNames(symbol) {
         'DIS': ['Disney', 'Walt Disney'],
         'MCD': ['McDonalds', 'McDonald\'s'],
         'KO': ['Coca-Cola', 'Coca Cola', 'Coke'],
-        'PEP': ['Pepsi', 'PepsiCo']
-        // Añadir más según sea necesario
+        'PEP': ['Pepsi', 'PepsiCo'],
+        'TSM': ['TSMC', 'Taiwan Semiconductor Manufacturing Company'],
+        'NVDA': ['NVIDIA', 'Nvidia Corporation'],
+        'QCOM': ['Qualcomm', 'Qualcomm Inc'],
+        'ORCL': ['Oracle', 'Oracle Corporation'],
+        'IBM': ['IBM', 'International Business Machines Corporation'],
+        'SAP': ['SAP', 'SAP SE'],
+        'MS': ['Morgan Stanley', 'Morgan Stanley'],
+        'GS': ['Goldman Sachs', 'Goldman Sachs Group'],
+        'JPM': ['JPMorgan', 'JP Morgan', 'JPMorgan Chase']
     };
 
     return alternatives[symbol] || [];
