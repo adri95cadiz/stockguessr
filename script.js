@@ -521,11 +521,6 @@ async function fetchStockData(symbol) {
             console.warn('No se pudieron obtener datos fundamentales:', error);
         }
 
-        // Filter historical data by less than one year ago if the game mode is predict_price
-        if (gameState.gameMode === GAME_MODES.PREDICT_PRICE) {
-            historicalData = historicalData.filter(data => new Date(data.date) > oneYearAgo);
-        }
-
         const stockData = {
             symbol: symbol,
             name: companyData.name || knownNames[symbol] || `${symbol} Corporation`,
@@ -541,7 +536,7 @@ async function fetchStockData(symbol) {
             high52w: parseFloat(companyData['52WeekHigh']) || currentPoint.price * 1.2,
             low52w: parseFloat(companyData['52WeekLow']) || currentPoint.price * 0.8,
             volume: formatVolume(historicalPoint.volume),
-            historicalData: historicalData.slice(-24) // Últimos 24 meses para la gráfica
+            historicalData: historicalData.filter(data => gameState.gameMode !== GAME_MODES.PREDICT_PRICE || new Date(data.date) > oneYearAgo).slice(-24) // Últimos 24 meses para la gráfica
         };
 
         stockDataCache.set(symbol, stockData);
@@ -1105,14 +1100,7 @@ function createHistoricalChart() {
     const chartCtx = chartCanvas.getContext('2d');
 
     const data = gameState.currentStock.historicalData;
-    const labels = data.map(d => new Date(d.date).toLocaleDateString('es-ES', {
-        year: '2-digit',
-        month: 'short'
-    }));
     const prices = data.map(d => d.price);
-
-    // Añadir punto futuro para el clic solo en modo predicción
-    const futureLabels = gameState.gameMode === GAME_MODES.PREDICT_PRICE ? [...labels, 'Ahora'] : labels;
 
     gameState.historicalChart = new Chart(chartCtx, {
         type: 'line',
@@ -1500,13 +1488,13 @@ function showRoundResult(guess, actual, score, percentageDifference, isPerfect, 
     } else if (score >= 300) {
         iconClass = 'good';
         title = 'No está mal';
-        subtitle = 'Puedes mejorar';
+        subtitle = 'Pero puedes hacerlo mejor';
         elements.resultIcon.innerHTML = '<i class="fas fa-chart-line"></i>';
     } else {
         iconClass = 'poor';
-        title = 'Sigue intentando';
+        title = '¡Ups!';
         subtitle = mode === 'price' ? 'Bastante lejos del precio real' : 'Respuesta incorrecta';
-        elements.resultIcon.innerHTML = '<i class="fas fa-chart-line-down"></i>';
+        elements.resultIcon.innerHTML = '<i class="fas fa-thumbs-down"></i>';
     }
 
     elements.resultIcon.className = `result-icon ${iconClass}`;
