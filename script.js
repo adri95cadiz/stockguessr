@@ -40,6 +40,153 @@ const STOCK_SYMBOLS = [
     'SAP', 'SONY', 'TM', 'HMC', 'NVS', 'ROCHE', 'NESN', 'UL', 'BP'
 ];
 
+
+// Nombres conocidos para símbolos comunes
+const knownNames = {
+    'AAPL': 'Apple Inc.',
+    'GOOGL': 'Alphabet Inc. (Google)',
+    'MSFT': 'Microsoft Corporation',
+    'TSLA': 'Tesla Inc.',
+    'AMZN': 'Amazon.com Inc.',
+    'META': 'Meta Platforms Inc. (Facebook)',
+    'NVDA': 'NVIDIA Corporation',
+    'NFLX': 'Netflix Inc.',
+    'JPM': 'JPMorgan Chase & Co.',
+    'BAC': 'Bank of America Corporation',
+    'WMT': 'Walmart Inc.',
+    'JNJ': 'Johnson & Johnson',
+    'V': 'Visa Inc.',
+    'MA': 'Mastercard Incorporated',
+    'HD': 'The Home Depot Inc.',
+    'PG': 'Procter & Gamble Company',
+    'DIS': 'The Walt Disney Company',
+    'MCD': 'McDonald\'s Corporation',
+    'KO': 'The Coca-Cola Company',
+    'PEP': 'PepsiCo Inc.',
+    'INTC': 'Intel Corporation',
+    'CSCO': 'Cisco Systems Inc.',
+    'IBM': 'International Business Machines',
+    'QCOM': 'QUALCOMM Incorporated',
+    'UBER': 'Uber Technologies Inc.',
+    'LYFT': 'Lyft Inc.',
+    'SNAP': 'Snap Inc.',
+    'SPOT': 'Spotify Technology S.A.',
+    'RBLX': 'Roblox Corporation',
+    'COIN': 'Coinbase Global Inc.',
+    'SQ': 'Block Inc. (Square)',
+    'PYPL': 'PayPal Holdings Inc.',
+    'SHOP': 'Shopify Inc.',
+    'ZOOM': 'Zoom Video Communications',
+    'DOCU': 'DocuSign Inc.',
+    'OKTA': 'Okta Inc.',
+    'CRWD': 'CrowdStrike Holdings Inc.',
+    'SNOW': 'Snowflake Inc.',
+    'PLTR': 'Palantir Technologies Inc.',
+    'WFC': 'Wells Fargo & Company',
+    'GS': 'The Goldman Sachs Group Inc.',
+    'MS': 'Morgan Stanley',
+    'C': 'Citigroup Inc.',
+    'AXP': 'American Express Company',
+    'USB': 'U.S. Bancorp',
+    'PNC': 'The PNC Financial Services Group',
+    'TFC': 'Truist Financial Corporation',
+    'COF': 'Capital One Financial Corporation',
+    'SCHW': 'The Charles Schwab Corporation',
+    'BLK': 'BlackRock Inc.',
+    'SPGI': 'S&P Global Inc.',
+    'ICE': 'Intercontinental Exchange Inc.',
+    'CME': 'CME Group Inc.',
+    'PFE': 'Pfizer Inc.',
+    'UNH': 'UnitedHealth Group Incorporated',
+    'ABBV': 'AbbVie Inc.',
+    'MRK': 'Merck & Co. Inc.',
+    'TMO': 'Thermo Fisher Scientific Inc.',
+    'ABT': 'Abbott Laboratories',
+    'CVS': 'CVS Health Corporation',
+    'DHR': 'Danaher Corporation',
+    'BMY': 'Bristol Myers Squibb Company',
+    'AMGN': 'Amgen Inc.',
+    'GILD': 'Gilead Sciences Inc.',
+    'BIIB': 'Biogen Inc.',
+    'VRTX': 'Vertex Pharmaceuticals Incorporated',
+    'REGN': 'Regeneron Pharmaceuticals Inc.',
+    'ISRG': 'Intuitive Surgical Inc.',
+    'ZTS': 'Zoetis Inc.',
+    'NKE': 'NIKE Inc.',
+    'SBUX': 'Starbucks Corporation',
+    'TGT': 'Target Corporation',
+    'LOW': 'Lowe\'s Companies Inc.',
+    'COST': 'Costco Wholesale Corporation',
+    'WBA': 'Walgreens Boots Alliance Inc.',
+    'F': 'Ford Motor Company',
+    'GM': 'General Motors Company',
+    'XOM': 'Exxon Mobil Corporation',
+    'CVX': 'Chevron Corporation',
+    'COP': 'ConocoPhillips',
+    'SLB': 'Schlumberger Limited',
+    'EOG': 'EOG Resources Inc.',
+    'PSX': 'Phillips 66',
+    'VLO': 'Valero Energy Corporation',
+    'KMI': 'Kinder Morgan Inc.',
+    'OKE': 'ONEOK Inc.',
+    'FCX': 'Freeport-McMoRan Inc.',
+    'NEM': 'Newmont Corporation',
+    'GOLD': 'Barrick Gold Corporation',
+    'CLF': 'Cleveland-Cliffs Inc.',
+    'AA': 'Alcoa Corporation',
+    'X': 'United States Steel Corporation',
+    'MT': 'ArcelorMittal',
+    'VALE': 'Vale S.A.',
+    'T': 'AT&T Inc.',
+    'VZ': 'Verizon Communications Inc.',
+    'TMUS': 'T-Mobile US Inc.',
+    'CMCSA': 'Comcast Corporation',
+    'CHTR': 'Charter Communications Inc.',
+    'PARA': 'Paramount Global',
+    'WBD': 'Warner Bros. Discovery Inc.',
+    'BA': 'The Boeing Company',
+    'CAT': 'Caterpillar Inc.',
+    'GE': 'General Electric Company',
+    'LMT': 'Lockheed Martin Corporation',
+    'RTX': 'RTX Corporation',
+    'HON': 'Honeywell International Inc.',
+    'UPS': 'United Parcel Service Inc.',
+    'FDX': 'FedEx Corporation',
+    'DE': 'Deere & Company',
+    'MMM': '3M Company',
+    'WM': 'Waste Management Inc.',
+    'EMR': 'Emerson Electric Co.',
+    'ETN': 'Eaton Corporation plc',
+    'ITW': 'Illinois Tool Works Inc.',
+    'PH': 'Parker-Hannifin Corporation',
+    'CMI': 'Cummins Inc.',
+    'AMT': 'American Tower Corporation',
+    'PLD': 'Prologis Inc.',
+    'CCI': 'Crown Castle Inc.',
+    'EQIX': 'Equinix Inc.',
+    'PSA': 'Public Storage',
+    'EXR': 'Extended Stay America Inc.',
+    'AVB': 'AvalonBay Communities Inc.',
+    'EQR': 'Equity Residential',
+    'MAA': 'Mid-America Apartment Communities',
+    'BABA': 'Alibaba Group Holding Limited',
+    'JD': 'JD.com Inc.',
+    'PDD': 'PDD Holdings Inc.',
+    'BIDU': 'Baidu Inc.',
+    'NIO': 'NIO Inc.',
+    'LI': 'Li Auto Inc.',
+    'XPEV': 'XPeng Inc.',
+    'TSM': 'Taiwan Semiconductor Manufacturing',
+    'ASML': 'ASML Holding N.V.',
+    'SAP': 'SAP SE',
+    'SONY': 'Sony Group Corporation',
+    'TM': 'Toyota Motor Corporation',
+    'HMC': 'Honda Motor Co. Ltd.',
+    'NVS': 'Novartis AG',
+    'UL': 'Unilever PLC',
+    'BP': 'BP p.l.c.'
+};
+
 // Modalidades de juego
 const GAME_MODES = {
     PREDICT_PRICE: 'predict_price',    // Modalidad original: predecir precio futuro
@@ -280,7 +427,6 @@ async function startGame() {
 
     } catch (error) {
         console.error('Error iniciando el juego:', error);
-        alert('Error cargando los datos. Por favor, intenta de nuevo.');
         elements.startBtn.innerHTML = '<i class="fas fa-play"></i> Comenzar Juego';
         elements.startBtn.disabled = false;
     }
@@ -313,8 +459,8 @@ async function fetchStockData(symbol) {
         }
 
         // Convertir datos a formato utilizable y ordenar por fecha
-        const dates = Object.keys(timeSeries).sort((a, b) => new Date(a['date']) - new Date(b['date']));
-        const historicalData = dates.map(dataPoint => ({
+        const series = timeSeries.sort((a, b) => new Date(a['date']) - new Date(b['date']));
+        const historicalData = series.map(dataPoint => ({
             date: dataPoint['date'],
             price: parseFloat(dataPoint['close']),
             volume: parseInt(dataPoint['volume'])
@@ -370,7 +516,7 @@ async function fetchStockData(symbol) {
 
         const stockData = {
             symbol: symbol,
-            name: companyData.Name || `${symbol} Corporation`,
+            name: companyData.name || knownNames[symbol] || `${symbol} Corporation`,
             historicalPrice: historicalPoint.price,
             currentPrice: currentPoint.price,
             historicalDate: new Date(historicalPoint.date).toLocaleDateString('es-ES', {
@@ -504,7 +650,6 @@ function loadNextRound() {
     // Verificar que tenemos datos para esta ronda
     if (!gameState.gameStocks || gameState.currentRound > gameState.gameStocks.length) {
         console.error('Error: No hay datos para esta ronda');
-        alert('Error cargando la ronda. El juego se reiniciará.');
         restartGame();
         return;
     }
@@ -735,152 +880,6 @@ function addCompanySearchList() {
         // Obtener nombre real si está disponible en caché
         const cachedStock = stockDataCache.get(symbol);
         let name = `${symbol} Corporation`; // Nombre por defecto
-
-        // Nombres conocidos para símbolos comunes
-        const knownNames = {
-            'AAPL': 'Apple Inc.',
-            'GOOGL': 'Alphabet Inc. (Google)',
-            'MSFT': 'Microsoft Corporation',
-            'TSLA': 'Tesla Inc.',
-            'AMZN': 'Amazon.com Inc.',
-            'META': 'Meta Platforms Inc. (Facebook)',
-            'NVDA': 'NVIDIA Corporation',
-            'NFLX': 'Netflix Inc.',
-            'JPM': 'JPMorgan Chase & Co.',
-            'BAC': 'Bank of America Corporation',
-            'WMT': 'Walmart Inc.',
-            'JNJ': 'Johnson & Johnson',
-            'V': 'Visa Inc.',
-            'MA': 'Mastercard Incorporated',
-            'HD': 'The Home Depot Inc.',
-            'PG': 'Procter & Gamble Company',
-            'DIS': 'The Walt Disney Company',
-            'MCD': 'McDonald\'s Corporation',
-            'KO': 'The Coca-Cola Company',
-            'PEP': 'PepsiCo Inc.',
-            'INTC': 'Intel Corporation',
-            'CSCO': 'Cisco Systems Inc.',
-            'IBM': 'International Business Machines',
-            'QCOM': 'QUALCOMM Incorporated',
-            'UBER': 'Uber Technologies Inc.',
-            'LYFT': 'Lyft Inc.',
-            'SNAP': 'Snap Inc.',
-            'SPOT': 'Spotify Technology S.A.',
-            'RBLX': 'Roblox Corporation',
-            'COIN': 'Coinbase Global Inc.',
-            'SQ': 'Block Inc. (Square)',
-            'PYPL': 'PayPal Holdings Inc.',
-            'SHOP': 'Shopify Inc.',
-            'ZOOM': 'Zoom Video Communications',
-            'DOCU': 'DocuSign Inc.',
-            'OKTA': 'Okta Inc.',
-            'CRWD': 'CrowdStrike Holdings Inc.',
-            'SNOW': 'Snowflake Inc.',
-            'PLTR': 'Palantir Technologies Inc.',
-            'WFC': 'Wells Fargo & Company',
-            'GS': 'The Goldman Sachs Group Inc.',
-            'MS': 'Morgan Stanley',
-            'C': 'Citigroup Inc.',
-            'AXP': 'American Express Company',
-            'USB': 'U.S. Bancorp',
-            'PNC': 'The PNC Financial Services Group',
-            'TFC': 'Truist Financial Corporation',
-            'COF': 'Capital One Financial Corporation',
-            'SCHW': 'The Charles Schwab Corporation',
-            'BLK': 'BlackRock Inc.',
-            'SPGI': 'S&P Global Inc.',
-            'ICE': 'Intercontinental Exchange Inc.',
-            'CME': 'CME Group Inc.',
-            'PFE': 'Pfizer Inc.',
-            'UNH': 'UnitedHealth Group Incorporated',
-            'ABBV': 'AbbVie Inc.',
-            'MRK': 'Merck & Co. Inc.',
-            'TMO': 'Thermo Fisher Scientific Inc.',
-            'ABT': 'Abbott Laboratories',
-            'CVS': 'CVS Health Corporation',
-            'DHR': 'Danaher Corporation',
-            'BMY': 'Bristol Myers Squibb Company',
-            'AMGN': 'Amgen Inc.',
-            'GILD': 'Gilead Sciences Inc.',
-            'BIIB': 'Biogen Inc.',
-            'VRTX': 'Vertex Pharmaceuticals Incorporated',
-            'REGN': 'Regeneron Pharmaceuticals Inc.',
-            'ISRG': 'Intuitive Surgical Inc.',
-            'ZTS': 'Zoetis Inc.',
-            'NKE': 'NIKE Inc.',
-            'SBUX': 'Starbucks Corporation',
-            'TGT': 'Target Corporation',
-            'LOW': 'Lowe\'s Companies Inc.',
-            'COST': 'Costco Wholesale Corporation',
-            'WBA': 'Walgreens Boots Alliance Inc.',
-            'F': 'Ford Motor Company',
-            'GM': 'General Motors Company',
-            'XOM': 'Exxon Mobil Corporation',
-            'CVX': 'Chevron Corporation',
-            'COP': 'ConocoPhillips',
-            'SLB': 'Schlumberger Limited',
-            'EOG': 'EOG Resources Inc.',
-            'PSX': 'Phillips 66',
-            'VLO': 'Valero Energy Corporation',
-            'KMI': 'Kinder Morgan Inc.',
-            'OKE': 'ONEOK Inc.',
-            'FCX': 'Freeport-McMoRan Inc.',
-            'NEM': 'Newmont Corporation',
-            'GOLD': 'Barrick Gold Corporation',
-            'CLF': 'Cleveland-Cliffs Inc.',
-            'AA': 'Alcoa Corporation',
-            'X': 'United States Steel Corporation',
-            'MT': 'ArcelorMittal',
-            'VALE': 'Vale S.A.',
-            'T': 'AT&T Inc.',
-            'VZ': 'Verizon Communications Inc.',
-            'TMUS': 'T-Mobile US Inc.',
-            'CMCSA': 'Comcast Corporation',
-            'CHTR': 'Charter Communications Inc.',
-            'PARA': 'Paramount Global',
-            'WBD': 'Warner Bros. Discovery Inc.',
-            'BA': 'The Boeing Company',
-            'CAT': 'Caterpillar Inc.',
-            'GE': 'General Electric Company',
-            'LMT': 'Lockheed Martin Corporation',
-            'RTX': 'RTX Corporation',
-            'HON': 'Honeywell International Inc.',
-            'UPS': 'United Parcel Service Inc.',
-            'FDX': 'FedEx Corporation',
-            'DE': 'Deere & Company',
-            'MMM': '3M Company',
-            'WM': 'Waste Management Inc.',
-            'EMR': 'Emerson Electric Co.',
-            'ETN': 'Eaton Corporation plc',
-            'ITW': 'Illinois Tool Works Inc.',
-            'PH': 'Parker-Hannifin Corporation',
-            'CMI': 'Cummins Inc.',
-            'AMT': 'American Tower Corporation',
-            'PLD': 'Prologis Inc.',
-            'CCI': 'Crown Castle Inc.',
-            'EQIX': 'Equinix Inc.',
-            'PSA': 'Public Storage',
-            'EXR': 'Extended Stay America Inc.',
-            'AVB': 'AvalonBay Communities Inc.',
-            'EQR': 'Equity Residential',
-            'MAA': 'Mid-America Apartment Communities',
-            'BABA': 'Alibaba Group Holding Limited',
-            'JD': 'JD.com Inc.',
-            'PDD': 'PDD Holdings Inc.',
-            'BIDU': 'Baidu Inc.',
-            'NIO': 'NIO Inc.',
-            'LI': 'Li Auto Inc.',
-            'XPEV': 'XPeng Inc.',
-            'TSM': 'Taiwan Semiconductor Manufacturing',
-            'ASML': 'ASML Holding N.V.',
-            'SAP': 'SAP SE',
-            'SONY': 'Sony Group Corporation',
-            'TM': 'Toyota Motor Corporation',
-            'HMC': 'Honda Motor Co. Ltd.',
-            'NVS': 'Novartis AG',
-            'UL': 'Unilever PLC',
-            'BP': 'BP p.l.c.'
-        };
 
         if (cachedStock && cachedStock.name) {
             name = cachedStock.name;
@@ -1265,7 +1264,6 @@ function submitPriceGuess() {
     console.log(`Enviando predicción de precio: $${guess} para ${gameState.currentStock.symbol}`); // Debug
 
     if (isNaN(guess) || guess <= 0) {
-        alert('Por favor, selecciona un punto en la gráfica o ingresa un precio válido.');
         return;
     }
 
@@ -1339,7 +1337,6 @@ function submitStockGuess() {
     console.log(`Enviando predicción de empresa: "${guess}" para ${gameState.currentStock.symbol}`); // Debug
 
     if (!guess || guess.length < 2) {
-        alert('Por favor, ingresa el nombre de la empresa.');
         return;
     }
 
@@ -1644,7 +1641,6 @@ async function showFinalResults() {
 
     } catch (error) {
         console.error('Error en showFinalResults:', error);
-        alert('Error mostrando los resultados finales. Revisa la consola para más detalles.');
     }
 }
 
