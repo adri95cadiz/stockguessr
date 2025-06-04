@@ -18,18 +18,18 @@ const STOCK_SYMBOLS = [
     'BMY', 'AMGN', 'GILD', 'BIIB', 'VRTX', 'REGN', 'ISRG', 'ZTS',
 
     // Consumo
-    'AMZN', 'WMT', 'HD', 'MCD', 'DIS', 'NKE', 'SBUX', 'TGT', 'LOW',
-    'COST', 'KO', 'PEP', 'PG', 'WBA', 'CVS', 'F', 'GM', 'TSLA',
+    'WMT', 'HD', 'MCD', 'DIS', 'NKE', 'SBUX', 'TGT', 'LOW',
+    'COST', 'KO', 'PEP', 'PG', 'WBA', 'F', 'GM',
 
     // Energía y Materiales
     'XOM', 'CVX', 'COP', 'SLB', 'EOG', 'PSX', 'VLO', 'KMI', 'OKE',
     'FCX', 'NEM', 'GOLD', 'CLF', 'AA', 'X', 'MT', 'VALE',
 
     // Telecomunicaciones y Medios
-    'T', 'VZ', 'TMUS', 'CMCSA', 'CHTR', 'DIS', 'NFLX', 'PARA', 'WBD',
+    'T', 'VZ', 'TMUS', 'CMCSA', 'CHTR', 'PARA', 'WBD',
 
     // Industrial
-    'BA', 'CAT', 'GE', 'LMT', 'RTX', 'HON', 'UPS', 'FDX', 'UBER',
+    'BA', 'CAT', 'GE', 'LMT', 'RTX', 'HON', 'UPS', 'FDX',
     'DE', 'MMM', 'WM', 'EMR', 'ETN', 'ITW', 'PH', 'CMI',
 
     // Bienes Raíces
@@ -46,6 +46,13 @@ const knownNames = {
     'AAPL': 'Apple Inc.',
     'GOOGL': 'Alphabet Inc. (Google)',
     'MSFT': 'Microsoft Corporation',
+    'AMD': 'Advanced Micro Devices Inc.',
+    'CRM': 'Salesforce.com Inc.',
+    'ORCL': 'Oracle Corporation',
+    'TWTR': 'Twitter Inc.',
+    'BRK.B': 'Berkshire Hathaway Inc.',
+    'ROCHE': 'Roche Holding AG',
+    'NESN': 'Nestlé SA',
     'TSLA': 'Tesla Inc.',
     'AMZN': 'Amazon.com Inc.',
     'META': 'Meta Platforms Inc. (Facebook)',
