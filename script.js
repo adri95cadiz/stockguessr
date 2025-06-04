@@ -213,7 +213,7 @@ let gameState = {
     historicalChart: null,
     gameMode: GAME_MODES.PREDICT_PRICE, // Modalidad por defecto
     stockRevealed: false, // Para controlar cuándo revelar el nombre del stock
-    selectedMode: null, // Para almacenar la selección de modalidad
+    selectedMode: GAME_MODES.PREDICT_PRICE, // Para almacenar la selección de modalidad
     gameStartTime: null
 };
 
@@ -330,7 +330,7 @@ function setupModeSelection() {
     let selectedMode = 'predict_price';
     const modeCards = document.querySelectorAll('.mode-card');
 
-    modeCards.forEach(card => {
+    modeCards.forEach((card, index) => {
         card.addEventListener('click', function () {
             // Remover active de todas las tarjetas
             modeCards.forEach(c => c.classList.remove('active'));
@@ -342,6 +342,9 @@ function setupModeSelection() {
             selectedMode = this.dataset.mode;
             console.log('Modalidad seleccionada:', selectedMode);
         });
+        if (index === 0) {
+            card.classList.add('active');
+        }
     });
 
     // Guardar referencia para usar en startGame
