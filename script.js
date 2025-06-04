@@ -536,7 +536,7 @@ async function fetchStockData(symbol) {
             high52w: parseFloat(companyData['52WeekHigh']) || currentPoint.price * 1.2,
             low52w: parseFloat(companyData['52WeekLow']) || currentPoint.price * 0.8,
             volume: formatVolume(historicalPoint.volume),
-            historicalData: historicalData.filter(data => gameState.gameMode !== GAME_MODES.PREDICT_PRICE || new Date(data.date) > oneYearAgo).slice(-24) // Últimos 24 meses para la gráfica
+            historicalData: historicalData.filter(data => gameState.gameMode !== GAME_MODES.PREDICT_PRICE || new Date(data.date) <= oneYearAgo).slice(-24) // Últimos 24 meses para la gráfica
         };
 
         stockDataCache.set(symbol, stockData);
