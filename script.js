@@ -578,7 +578,7 @@ function createFallbackStockData(symbol, gameMode = GAME_MODES.PREDICT_PRICE) {
 
     return {
         symbol: symbol,
-        name: `${symbol} Corporation`,
+        name: knownNames[symbol] || `${symbol} Corporation`,
         historicalPrice: historicalPrice,
         currentPrice: currentPrice,
         historicalDate: historicalDate,
