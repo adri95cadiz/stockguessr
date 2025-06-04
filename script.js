@@ -1101,11 +1101,15 @@ function createHistoricalChart() {
 
     const data = gameState.currentStock.historicalData;
     const prices = data.map(d => d.price);
+    const labels = data.map(d => new Date(d.date).toLocaleDateString('es-ES', {
+        year: '2-digit',
+        month: 'short'
+    }));
 
     gameState.historicalChart = new Chart(chartCtx, {
         type: 'line',
         data: {
-            labels: futureLabels,
+            labels: labels,
             datasets: [{
                 label: 'Precio ($)',
                 data: prices, // Solo datos históricos, no el futuro
