@@ -773,15 +773,46 @@ function addPriceSlider() {
 
     if (!gameState.currentStock) return;
 
-    // Calcular rango del slider basado en datos históricos
+    // Calcular rango del slider basado en datos históricos y precio actual
     const historicalPrices = gameState.currentStock.historicalData.map(d => d.price);
-    const minPrice = Math.min(...historicalPrices);
-    const maxPrice = Math.max(...historicalPrices);
+    const currentPrice = gameState.currentStock.currentPrice;
+    
+    // Incluir el precio actual en el análisis para asegurar que esté en el rango
+    const allPrices = [...historicalPrices, currentPrice];
+    const minPrice = Math.min(...allPrices);
+    const maxPrice = Math.max(...allPrices);
     const priceRange = maxPrice - minPrice;
 
-    // Expandir el rango un poco para dar más opciones
-    const sliderMin = Math.max(0.01, minPrice - priceRange * 0.3);
-    const sliderMax = maxPrice + priceRange * 0.3;
+    // Crear un rango más flexible y inteligente
+    let expansionFactor;
+    if (priceRange < maxPrice * 0.1) {
+        // Si el rango es muy pequeño (< 10% del precio), expandir más
+        expansionFactor = 0.8;
+    } else if (priceRange < maxPrice * 0.3) {
+        // Rango moderado, expansión estándar
+        expansionFactor = 0.5;
+    } else {
+        // Rango ya amplio, expansión mínima
+        expansionFactor = 0.3;
+    }
+
+    // Calcular límites del slider
+    const expansion = priceRange * expansionFactor;
+    let sliderMin = Math.max(0.01, minPrice - expansion);
+    let sliderMax = maxPrice + expansion;
+
+    // Garantizar un rango mínimo para evitar sliders demasiado estrechos
+    const minimumRange = Math.max(currentPrice * 0.4, 10); // Al menos 40% del precio actual o $10
+    if ((sliderMax - sliderMin) < minimumRange) {
+        const center = (sliderMin + sliderMax) / 2;
+        sliderMin = Math.max(0.01, center - minimumRange / 2);
+        sliderMax = center + minimumRange / 2;
+    }
+
+    // Añadir algo de aleatoriedad para que no sea obvio donde está el precio real
+    const randomAdjustment = (sliderMax - sliderMin) * (0.05 + Math.random() * 0.1); // 5-15% del rango
+    sliderMin = Math.max(0.01, sliderMin - randomAdjustment);
+    sliderMax = sliderMax + randomAdjustment;
 
     // Crear contenedor del slider
     const sliderContainer = document.createElement('div');
